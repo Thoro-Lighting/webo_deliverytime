@@ -1,0 +1,25 @@
+{
+  "name": "webo/webo_deliverytime",
+  "description": "Webo deliverytime",
+  "type": "prestashop-module",
+  "license": "AFL-3.0",
+  "authors": [
+    {
+      "name": "Webo",
+      "email": "adrian.wadrzyk.contact@gmail.com",
+      "role": "Web Agency"
+    }
+  ],
+  "autoload": {
+    "psr-4": {
+      "WeboDeliveryTime\\": "src/"
+    }
+  },
+  "require": {
+    "php": ">=7.2.0"
+  },
+  "config": {
+    "preferred-install": "dist",
+    "prepend-autoloader": false
+  }
+}

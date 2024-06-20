@@ -1,0 +1,49 @@
+{% extends '@PrestaShop/Admin/layout.html.twig' %}
+
+{% block content %}
+    <div class="row justify-content-center">
+        <div class="col">
+
+            <div class="card">
+                {{ form_start(form) }}
+
+                <div class="card-block">
+                    <div class="card-text">
+                        {{ form_errors(form) }}
+
+                        {{ form_rest(form) }}
+
+                        {% if form.vars.value.image_miniatures is defined %}
+                            {% for key, value in form.vars.value.image_miniatures %}
+                                <div class="form-group row">
+                                    <div class="form-control-label"></div>
+                                    <div class="col-sm">
+                                           <img src="{{ value }}" class="img-fluid" style="max-width: 300px">
+                                    </div>
+                                </div>
+                            {% endfor %}
+                        {% endif %}
+                    </div>
+                </div>
+
+                <div class="card-footer clearfix">
+                    <a href="{{backUrl}}" class="btn btn-primary float-left">
+                        <span class="material-icons">
+                            arrow_back
+                        </span>
+                        {{ 'Back to list'|trans({},'Modules.AwChristmasCalendar.Admin') }}</a>
+                    <button class="btn btn-primary float-right">{{ 'Submit'|trans({}, 'Modules.AwChristmasCalendar.Admin') }}</button>
+                </div>
+
+                {{ form_end(form) }}
+            </div>
+
+        </div>
+    </div>
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+
+    <script src="{{ asset('../modules/aw_christmas_calendar/views/dist/adminIndex.js') }}"></script>
+{% endblock %}

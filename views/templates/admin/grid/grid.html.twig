@@ -1,0 +1,20 @@
+{% extends '@PrestaShop/Admin/layout.html.twig' %}
+
+{% block content %}
+    <div class="text-right mb-3">
+        <a href="{{ addUrl }}" class="btn btn-primary">
+        <span class="material-icons">
+            add_circle
+        </span>
+            {{ 'Add new delivety time item'|trans({}, 'Modules.Webodeliverytime.Admin')}}
+        </a>
+    </div>
+
+    {% include '@PrestaShop/Admin/Common/Grid/grid_panel.html.twig' with {'grid': deliveryTimeGrid} %}
+{% endblock %}
+
+
+{% block javascripts %}
+    {{ parent() }}
+    <script src="{{ asset('../modules/webo_deliverytime/views/js/admin/adminIndex.js') }}"></script>
+{% endblock %}

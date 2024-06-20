@@ -1,0 +1,29 @@
+webo_delivery_time_list:
+  path: /webo_delivery_time_controller/list
+  methods: [ GET ]
+  defaults:
+    _controller: 'WeboDeliveryTime\Controller\Admin\DeliveryTimeController::indexAction'
+    _legacy_controller: DeliveryTimeController
+    _legacy_link: DeliveryTimeController
+
+webo_delivery_time_form_create:
+  path: /webo_delivery_time_controller/form/delivery_time_shipping/create
+  methods: [GET, POST]
+  defaults:
+    _controller: 'WeboDeliveryTime\Controller\Admin\DeliveryTimeController::createAction'
+
+webo_delivery_time_form_create_edit:
+  path: /webo_delivery_time_controller/form/delivery_time_shipping/{id}/edit
+  methods: [GET, POST]
+  defaults:
+    _controller: 'WeboDeliveryTime\Controller\Admin\DeliveryTimeController::editAction'
+  requirements:
+    idDay: \d+
+
+webo_delivery_time_form_delete:
+  path: /webo_delivery_time_controller/form/delivery_time_shipping/{id}/delete
+  methods: [GET, POST]
+  defaults:
+    _controller: 'WeboDeliveryTime\Controller\Admin\DeliveryTimeController::deleteAction'
+  requirements:
+    idDay: \d+

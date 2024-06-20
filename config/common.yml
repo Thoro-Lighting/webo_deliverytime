@@ -1,0 +1,70 @@
+services:
+  _defaults:
+    public: true
+
+  webo_delivery_time.module:
+    class: webo_deliverytime
+    factory: [ 'Module', 'getInstanceByName' ]
+    public: false
+    arguments:
+      - 'webo_deliverytime'
+
+  webo_delivery_time.module.db:
+    class: Db
+    public: true
+    autowire: false
+    factory: [ \Db, 'getInstance' ]
+
+  webo_delivery_time.hook.abstract_hook:
+    class: WeboDeliveryTime\Hook\AbstractHook
+    arguments:
+      - '@webo_delivery_time.module'
+      - "@=service('prestashop.adapter.legacy.context').getContext()"
+
+  webo_deliverytime.hook.action_admin_products_controller_save_after:
+    class: WeboDeliveryTime\Hook\ActionAdminProductsControllerSaveAfter
+    public: true
+    parent: 'webo_delivery_time.hook.abstract_hook'
+
+  webo_deliverytime.hook.display_admin_products_extra:
+    class: WeboDeliveryTime\Hook\DisplayAdminProductsExtra
+    public: true
+    parent: 'webo_delivery_time.hook.abstract_hook'
+
+  webo_deliverytime.hook.action_carrier_update:
+    class: WeboDeliveryTime\Hook\ActionCarrierUpdate
+    public: true
+    parent: 'webo_delivery_time.hook.abstract_hook'
+    arguments:
+      - '@webo_delivery_time.repository.delivery_time_shipping_doctirne_repository'
+      - '@doctrine.orm.entity_manager'
+
+  webo_delivery_time.repository.delivery_time_product_repository:
+    class: WeboDeliveryTime\Repository\DeliveryTimeProductRepository
+    arguments:
+      - '@webo_delivery_time.module.db'
+
+  webo_delivery_time.repository.delivery_time_shipping_doctirne_repository:
+    class: WeboDeliveryTime\Repository\Doctrine\DeliveryTimeShippingRepository
+    public: true
+    factory: [ '@doctrine.orm.default_entity_manager', getRepository ]
+    arguments:
+      - WeboDeliveryTime\Entity\WeboDeliveryTimeShipping
+
+  webo_delivery_time.choice_provider.shipping_choice_provider:
+    class: WeboDeliveryTime\ChoiceProvider\ShippingChoicesProvider
+    public: true
+    arguments:
+      - '@webo_delivery_time.repository.delivery_time_shipping_doctirne_repository'
+
+  webo_delivery_time.constraint.unique_field_constraint_validator:
+    class: 'WeboDeliveryTime\Constraint\UniqueFieldConstraintValidator'
+    arguments:
+      - '@doctrine.orm.default_entity_manager'
+    tags:
+      - { name: validator.constraint_validator }
+
+  webo_delivery_time.presenter.delivery_time_shipping_presenter:
+    class: 'WeboDeliveryTime\Presenter\DeliveryTimePresenter'
+    arguments:
+      - '@webo_delivery_time.repository.delivery_time_shipping_doctirne_repository'

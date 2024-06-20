@@ -1,0 +1,75 @@
+imports:
+  - { resource: ../common.yml }
+
+services:
+  _defaults:
+    public: true
+
+  webo_delivery_time.controller.admin.competition_form_controller:
+    public: true
+    class: WeboDeliveryTime\Controller\Admin\DeliveryTimeController
+
+  #grid
+  webo_delivery_time.grid.definition.delivery_time_shipping_grid_definition_factory:
+    class: 'WeboDeliveryTime\Grid\Definition\DeliveryTimeShippingGridDefinitionFactory'
+    parent: 'prestashop.core.grid.definition.factory.abstract_grid_definition'
+    public: true
+
+  webo_delivery_time.grid.query.delivery_time_shipping_form_grid_query_builder_factory:
+    class: 'WeboDeliveryTime\Grid\Query\DeliveryTimeShippingFormGridQueryBuilderFactory'
+    parent: 'prestashop.core.grid.abstract_query_builder'
+    public: true
+    arguments:
+      - '@prestashop.core.query.doctrine_search_criteria_applicator'
+      - "@=service('prestashop.adapter.legacy.context').getContext()"
+
+  webo_delivery_time.grid.data.factory.delivery_time_shipping_form_grid_data_factory:
+    class: 'PrestaShop\PrestaShop\Core\Grid\Data\Factory\DoctrineGridDataFactory'
+    arguments:
+      - '@webo_delivery_time.grid.query.delivery_time_shipping_form_grid_query_builder_factory'
+      - '@prestashop.core.hook.dispatcher'
+      - '@prestashop.core.grid.query.doctrine_query_parser'
+      - 'webo_deliverytime'
+
+  webo_delivery_time.grid.delivery_time_shipping_grid_factory:
+    class: PrestaShop\PrestaShop\Core\Grid\GridFactory
+    arguments:
+      - '@webo_delivery_time.grid.definition.delivery_time_shipping_grid_definition_factory'
+      - '@webo_delivery_time.grid.data.factory.delivery_time_shipping_form_grid_data_factory'
+      - '@prestashop.core.grid.filter.form_factory'
+      - '@prestashop.core.hook.dispatcher'
+
+  #form
+  webo_delivery_time.form.data_provider.delivery_time_shipping_form_data_provider:
+    class: 'WeboDeliveryTime\Form\Provider\DeliveryTimeShippingProvider'
+    arguments:
+      - '@webo_delivery_time.repository.delivery_time_shipping_doctirne_repository'
+
+  webo_delivery_time.form.delivery_time_shipping_type:
+    class: 'WeboDeliveryTime\Form\Type\DeliveryTimeShippingType'
+    parent: 'form.type.common_type'
+    public: true
+    arguments:
+      - "@webo_delivery_time.choice_provider.shipping_choice_provider"
+      - "@=service('prestashop.adapter.legacy.context').getContext()"
+    tags:
+      - { name: form.type }
+
+  webo_delivery_time.form.builder.delivery_time_shipping_form_builder:
+    class: 'PrestaShop\PrestaShop\Core\Form\IdentifiableObject\Builder\FormBuilder'
+    factory: 'prestashop.core.form.builder.form_builder_factory:create'
+    arguments:
+      - 'WeboDeliveryTime\Form\Type\DeliveryTimeShippingType'
+      - '@webo_delivery_time.form.data_provider.delivery_time_shipping_form_data_provider'
+
+  webo_delivery_time.form.identifiable_object.data_handler.delivery_time_shipping_data_handler:
+    class: 'WeboDeliveryTime\Form\DataHandler\DeliveryTimeShippingItemDataHandler'
+    arguments:
+      - '@webo_delivery_time.repository.delivery_time_shipping_doctirne_repository'
+      - '@doctrine.orm.default_entity_manager'
+      -
+  webo_delivery_time.form.identifiable_object.handler.delivery_time_shipping_form_handler:
+    class: 'PrestaShop\PrestaShop\Core\Form\IdentifiableObject\Handler\FormHandler'
+    factory: 'prestashop.core.form.identifiable_object.handler.form_handler_factory:create'
+    arguments:
+      - '@webo_delivery_time.form.identifiable_object.data_handler.delivery_time_shipping_data_handler'
