@@ -14,6 +14,7 @@ class DeliveryTimePresenter {
     private $carrierDeliveryTime = 0;
     private $cartProductsDeliveryTime = 0;
 
+    private $cachedTimeProducts = [];
     public function __construct(DeliveryTimeShippingRepository $entityRepository) {
             $this->entityRepository = $entityRepository;
     }
@@ -59,27 +60,37 @@ class DeliveryTimePresenter {
             return $product->id;
         }, $products);
 
-        $maxWhenOnStockData = DeliveryTimeProduct::getByProductsIds($productIds);
+        $cacheKey = implode('|', $productIds);
 
-        foreach ($products as $product) {
-            $onStock = StockAvailable::getQuantityAvailableByProduct($product->id, $product->id_product_attribute) > 0;
+        if(empty($this->cachedTimeProducts[$cacheKey])) {
+            $maxWhenOnStockData = DeliveryTimeProduct::getByProductsIds($productIds);
 
-            foreach ($maxWhenOnStockData as $data) {
-                if ($data['id_product'] == $product->id) {
-                    $deliveryTimeData = $data;
-                    break;
+            if(!empty($maxWhenOnStockData)) {
+                foreach ($products as $product) {
+                    $onStock = StockAvailable::getQuantityAvailableByProduct($product->id, $product->id_product_attribute) > 0;
+
+                    foreach ($maxWhenOnStockData as $data) {
+                        if ($data['id_product'] == $product->id) {
+                            $deliveryTimeData = $data;
+                            break;
+                        }
+                    }
+
+                    if ($deliveryTimeData) {
+                        if ($onStock) {
+                            $maxDeliveryTime = max($maxDeliveryTime, (int)$deliveryTimeData['delivery_time_on_stock']);
+                        } else {
+                            $maxDeliveryTime = max($maxDeliveryTime, (int)$deliveryTimeData['delivery_time_out_of_stock']);
+                        }
+                    }
                 }
+
+                $this->cachedTimeProducts[$cacheKey] = $maxDeliveryTime;
             }
 
-            if ($deliveryTimeData) {
-                if ($onStock) {
-                    $maxDeliveryTime = max($maxDeliveryTime, (int)$deliveryTimeData['delivery_time_on_stock']);
-                } else {
-                    $maxDeliveryTime = max($maxDeliveryTime, (int)$deliveryTimeData['delivery_time_out_of_stock']);
-                }
-            }
+            return $maxDeliveryTime;
         }
 
-        return $maxDeliveryTime;
+        return $this->cachedTimeProducts[$cacheKey];
     }
 }
