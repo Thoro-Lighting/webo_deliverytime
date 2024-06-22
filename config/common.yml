@@ -31,6 +31,11 @@ services:
     public: true
     parent: 'webo_delivery_time.hook.abstract_hook'
 
+  webo_deliverytime.hook.action_admin_controller_set_media:
+    class: WeboDeliveryTime\Hook\ActionAdminControllerSetMedia
+    public: true
+    parent: 'webo_delivery_time.hook.abstract_hook'
+
   webo_deliverytime.hook.action_carrier_update:
     class: WeboDeliveryTime\Hook\ActionCarrierUpdate
     public: true

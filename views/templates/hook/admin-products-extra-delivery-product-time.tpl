@@ -11,7 +11,7 @@
             <input type="text"
                    id="delivery_time_on_stock"
                    name="delivery_time_on_stock"
-                   class="form-control"
+                   class="form-control js-delivery-time-item"
                    {if !empty($delivery_time_on_stock)}
                        value="{$delivery_time_on_stock}"
                    {/if}
@@ -26,11 +26,13 @@
             <input type="text"
                    id="delivery_time_out_of_stock"
                    name="delivery_time_out_of_stock"
-                   class="form-control"
+                   class="form-control js-delivery-time-item"
                    {if !empty($delivery_time_out_of_stock)}
                        value="{$delivery_time_out_of_stock}"
                    {/if}
             >
         </div>
     </div>
+
+    <input type="hidden" name="weboDeliveryTimeUpdateAfter" class="d-none js-send-delivery-time-update" value="0">
 </div>

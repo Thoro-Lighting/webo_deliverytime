@@ -11,7 +11,8 @@ class ModuleInstaller
         'displayAdminProductsExtra',
         'actionAdminProductsControllerSaveAfter',
         'displayDeliveryTime',
-        'actionCarrierUpdate'
+        'actionCarrierUpdate',
+        'actionAdminControllerSetMedia'
     ];
 
     /**
