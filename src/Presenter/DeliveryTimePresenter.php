@@ -33,7 +33,7 @@ class DeliveryTimePresenter {
         $cartProductsDeliveryTime = null;
 
         if (!empty($idCarrier)) {
-            $carrierDeliveryTime = $this->getCarrierDeliveryTime($idCarrier);
+            $carrierDeliveryTime = $this->getCarrierDeliveryTime((int) $idCarrier);
         }
 
         if (!empty($cart)) {
