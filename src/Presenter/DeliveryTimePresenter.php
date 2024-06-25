@@ -37,12 +37,23 @@ class DeliveryTimePresenter {
         }
 
         if (!empty($cart)) {
-            $cartProductsDeliveryTime = $this->getMaxDeliveryTimeByProducts($cart['products']);
+            if(is_object($cart)) {
+                $products = $cart->getProducts();
+            } else {
+                $products = $cart['products'];
+            }
+
+            $cartProductsDeliveryTime = $this->getMaxDeliveryTimeByProducts($products);
         }
 
-        $deliveryTimeSum = null;
-        if ($carrierDeliveryTime !== null && $cartProductsDeliveryTime !== null) {
-            $deliveryTimeSum = $carrierDeliveryTime + $cartProductsDeliveryTime;
+        $deliveryTimeSum = 0;
+
+        if ($carrierDeliveryTime !== null) {
+            $deliveryTimeSum = $carrierDeliveryTime;
+        }
+
+        if( $cartProductsDeliveryTime !== null) {
+            $deliveryTimeSum += $cartProductsDeliveryTime;
         }
 
         return [
@@ -70,7 +81,7 @@ class DeliveryTimePresenter {
         $maxDeliveryTime = 0;
 
         $productIds = array_map(function ($product) {
-            return $product->id;
+            return is_object($product) ? $product->id : $product['id_product'];
         }, $products);
 
         $cacheKey = implode('|', $productIds);
@@ -80,10 +91,13 @@ class DeliveryTimePresenter {
 
             if(!empty($maxWhenOnStockData)) {
                 foreach ($products as $product) {
-                    $onStock = StockAvailable::getQuantityAvailableByProduct($product->id, $product->id_product_attribute) > 0;
+                    $productId = is_object($product) ? $product->id : $product['id_product'];
+                    $productIdAttribute = is_object($product) ? $product->id_attribute : $product['id_product_attribute'];
+
+                    $onStock = StockAvailable::getQuantityAvailableByProduct($productId, $productIdAttribute) > 0;
 
                     foreach ($maxWhenOnStockData as $data) {
-                        if ($data['id_product'] == $product->id) {
+                        if ($data['id_product'] == $productId) {
                             $deliveryTimeData = $data;
                             break;
                         }
