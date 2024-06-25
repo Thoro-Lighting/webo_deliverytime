@@ -33,7 +33,7 @@ class ActionAdminProductsControllerSaveAfter extends AbstractHook
 
     private function validate($delivery_time_on_stock, $delivery_time_out_of_stock)
     {
-        if(!is_numeric($delivery_time_on_stock) || !is_numeric($delivery_time_out_of_stock)){
+        if((!empty($delivery_time_on_stock) && !is_numeric($delivery_time_on_stock)) || (!empty($delivery_time_out_of_stock) && !is_numeric($delivery_time_out_of_stock))){
             throw new PrestaShopException('Oba pola muszą być liczbą');
         }
 

@@ -26,8 +26,8 @@ class DeliveryTimeProduct extends ObjectModel {
         $model = $id ? new DeliveryTimeProduct($id) : new DeliveryTimeProduct();
         $model->id_product = $id_product;
 
-        $model->delivery_time_out_of_stock = $data['delivery_time_on_stock'];
-        $model->delivery_time_on_stock = $data['delivery_time_out_of_stock'];
+        $model->delivery_time_out_of_stock = $data['delivery_time_out_of_stock'];
+        $model->delivery_time_on_stock = $data['delivery_time_on_stock'];
 
         return $model->save();
     }
