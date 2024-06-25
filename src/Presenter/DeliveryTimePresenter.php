@@ -19,31 +19,44 @@ class DeliveryTimePresenter {
             $this->entityRepository = $entityRepository;
     }
 
-    public function present($idCarrierReference = null, $cart = null):array {
-
-        if(empty($idCarrierReference) && empty($cart)) {
-            return [];
+    public function present($idCarrier = null, $cart = null): array
+    {
+        if (empty($idCarrier) && empty($cart)) {
+            return [
+                'carrierDeliveryTime' => null,
+                'cartProductsDeliveryTime' => null,
+                'deliveryTimeSum' => null
+            ];
         }
 
-        if(!empty($idCarrierReference)) {
-            $this->carrierDeliveryTime = $this->getCarrierDeliveryTime($idCarrierReference);
+        $carrierDeliveryTime = null;
+        $cartProductsDeliveryTime = null;
+
+        if (!empty($idCarrier)) {
+            $carrierDeliveryTime = $this->getCarrierDeliveryTime($idCarrier);
         }
 
-        if(!empty($cart)) {
-            $this->cartProductsDeliveryTime = $this->getMaxDeliveryTimeByProducts($cart['products']);
+        if (!empty($cart)) {
+            $cartProductsDeliveryTime = $this->getMaxDeliveryTimeByProducts($cart['products']);
+        }
+
+        $deliveryTimeSum = null;
+        if ($carrierDeliveryTime !== null && $cartProductsDeliveryTime !== null) {
+            $deliveryTimeSum = $carrierDeliveryTime + $cartProductsDeliveryTime;
         }
 
         return [
-            'carrierDeliveryTime' => $this->carrierDeliveryTime,
-            'cartProductsDeliveryTime' => $this->cartProductsDeliveryTime,
-            'deliveryTimeSum' => $this->carrierDeliveryTime + $this->cartProductsDeliveryTime
+            'carrierDeliveryTime' => $carrierDeliveryTime,
+            'cartProductsDeliveryTime' => $cartProductsDeliveryTime,
+            'deliveryTimeSum' => $deliveryTimeSum,
         ];
     }
+
 
     private function getCarrierDeliveryTime(int $idCarrierReference)
     {
         $deliveryTimeShippingItem = $this->entityRepository->findOneBy([
-            'idCarrierReference' => $idCarrierReference,
+            'idCarrier' => $idCarrierReference,
         ]);
 
         if ($deliveryTimeShippingItem !== null) {

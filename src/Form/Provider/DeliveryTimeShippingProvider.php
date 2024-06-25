@@ -25,7 +25,7 @@ class DeliveryTimeShippingProvider implements FormDataProviderInterface
         $deliveryTimeShippingItem = $this->repository->findOneById((int) $id);
         $itemData = [];
 
-        $itemData['id_carrier_reference'] = $deliveryTimeShippingItem->getIdCarrierReference();
+        $itemData['id_carrier'] = $deliveryTimeShippingItem->getIdCarrier();
         $itemData['delivery_time'] = $deliveryTimeShippingItem->getDeliveryTime();
 
        return $itemData;
@@ -34,7 +34,7 @@ class DeliveryTimeShippingProvider implements FormDataProviderInterface
     public function getDefaultData()
     {
         return [
-            "id_carrier_reference" => '',
+            "id_carrier" => '',
             "delivery_time" => [],
         ];
     }

@@ -59,8 +59,6 @@ services:
   webo_delivery_time.choice_provider.shipping_choice_provider:
     class: WeboDeliveryTime\ChoiceProvider\ShippingChoicesProvider
     public: true
-    arguments:
-      - '@webo_delivery_time.repository.delivery_time_shipping_doctirne_repository'
 
   webo_delivery_time.constraint.unique_field_constraint_validator:
     class: 'WeboDeliveryTime\Constraint\UniqueFieldConstraintValidator'

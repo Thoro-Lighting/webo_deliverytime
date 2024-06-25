@@ -40,8 +40,8 @@ class DeliveryTimeShippingItemDataHandler implements FormDataHandlerInterface
     {
         $deliveryTimeShippingItem = new WeboDeliveryTimeShipping();
 
-        $deliveryTimeShippingItem->setDeliveryTime((int) $data['id_carrier_reference']);
-        $deliveryTimeShippingItem->setIdCarrierReference((int) $data['delivery_time']);
+        $deliveryTimeShippingItem->setDeliveryTime((int) $data['delivery_time']);
+        $deliveryTimeShippingItem->setIdCarrier((int) $data['id_carrier']);
 
         $this->entityManager->persist($deliveryTimeShippingItem);
         $this->entityManager->flush();
@@ -53,8 +53,8 @@ class DeliveryTimeShippingItemDataHandler implements FormDataHandlerInterface
     {
         $deliveryTimeShippingItem = $this->deliveryTimeProductRepository->find($id);
 
-        $deliveryTimeShippingItem->setDeliveryTime((int) $data['id_carrier_reference']);
-        $deliveryTimeShippingItem->setIdCarrierReference((int) $data['delivery_time']);
+        $deliveryTimeShippingItem->setDeliveryTime((int) $data['delivery_time']);
+        $deliveryTimeShippingItem->setIdCarrier((int) $data['id_carrier']);
 
         $this->entityManager->flush();
         return $deliveryTimeShippingItem->getId();

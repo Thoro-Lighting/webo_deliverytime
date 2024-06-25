@@ -33,17 +33,17 @@ class DeliveryTimeShippingType extends CommonAbstractType
         $shippingChoices = $this->shippingChoicesProvider->getShippingChoices($this->context->language->id);
 
         $data = $builder->getData();
-        $isEditMode = !empty($data['id_carrier_reference']);
+        $isEditMode = !empty($data['id_carrier']);
 
         $builder
-            ->add('id_carrier_reference', ChoiceType::class, [
+            ->add('id_carrier', ChoiceType::class, [
                 'label' => 'Metoda dostawy',
                 'choices' => $shippingChoices,
                 'constraints' => [
                     new NotBlank(),
                     new UniqueFieldConstraint([
                         'entityClass' => WeboDeliveryTimeShipping::class,
-                        'fieldName' => 'idCarrierReference',
+                        'fieldName' => 'idCarrier',
                         'message' => 'Istnieje już zdefiniowany czas dostawy dla tego przewoźnika.',
                     ]),
                 ],

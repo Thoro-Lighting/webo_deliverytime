@@ -30,11 +30,9 @@ class ActionCarrierUpdate extends AbstractHook
 
     public function execute(array $params)
     {
-        if(!empty($params['carrier'])) {
-            $carrier = $params['carrier'];
-
+        if(!empty($id_carrier = \Tools::getValue('id_carrier'))) {
             $deliveryTimeShippingItem = $this->entityRepository->findOneBy([
-                'idCarrierReference' => (int) $carrier->id_reference,
+                'idCarrier' => (int)$id_carrier,
             ]);
 
             if ($deliveryTimeShippingItem !== null) {

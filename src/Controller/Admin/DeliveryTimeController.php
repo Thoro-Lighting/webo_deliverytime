@@ -88,7 +88,7 @@ class DeliveryTimeController extends FrameworkBundleAdminController {
             ->getRepository(WeboDeliveryTimeShipping::class)
             ->find($id);
 
-        if(!empty($christmasCalendarItem)) {
+        if(!empty($weboDeliveryItemShipping)) {
             $entityManager = $this->get('doctrine.orm.entity_manager');
 
             $entityManager->remove($weboDeliveryItemShipping);

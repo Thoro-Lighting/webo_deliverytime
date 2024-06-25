@@ -64,6 +64,6 @@ class DeliveryTimeShippingFormGridQueryBuilderFactory extends AbstractDoctrineQu
             ->createQueryBuilder()
             ->select('wds.*, ca.name as carrier_name')
             ->from($this->dbPrefix.'webo_deliverytime_shipping', 'wds')
-            ->leftJoin('wds', $this->dbPrefix .'carrier', 'ca', 'ca.id_reference = wds.id_carrier_reference AND ca.deleted = 0');
+            ->leftJoin('wds', $this->dbPrefix .'carrier', 'ca', 'ca.id_carrier = wds.id_carrier AND ca.deleted = 0');
     }
 }

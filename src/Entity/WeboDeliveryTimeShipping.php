@@ -20,7 +20,7 @@ class WeboDeliveryTimeShipping
     /**
      * @ORM\Column(type="integer")
      */
-    private $idCarrierReference;
+    private $idCarrier;
 
     /**
      * @ORM\Column(type="integer", length=3)
@@ -34,14 +34,14 @@ class WeboDeliveryTimeShipping
         return $this->id;
     }
 
-    public function getIdCarrierReference(): ?int
+    public function getIdCarrier(): ?int
     {
-        return $this->idCarrierReference;
+        return $this->idCarrier;
     }
 
-    public function setIdCarrierReference(int $idCarrierReference): self
+    public function setIdCarrier(int $idCarrier): self
     {
-        $this->idCarrierReference = $idCarrierReference;
+        $this->idCarrier = $idCarrier;
         return $this;
     }
 

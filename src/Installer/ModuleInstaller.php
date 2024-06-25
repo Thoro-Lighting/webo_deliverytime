@@ -58,7 +58,7 @@ class ModuleInstaller
             ) ENGINE=' . _MYSQL_ENGINE_ . ' DEFAULT CHARSET=utf8;',
             'CREATE TABLE IF NOT EXISTS `' . _DB_PREFIX_ . 'webo_deliverytime_shipping` (
                 `id` int(11) NOT NULL AUTO_INCREMENT,
-                `id_carrier_reference` int(11) NOT NULL,
+                `id_carrier` int(11) NOT NULL,
                 `delivery_time` int (3) NOT NULL,
                 PRIMARY KEY (`id`)
             ) ENGINE=' . _MYSQL_ENGINE_ . ' DEFAULT CHARSET=utf8;'

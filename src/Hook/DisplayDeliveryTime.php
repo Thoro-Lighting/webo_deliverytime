@@ -26,20 +26,24 @@ class DisplayDeliveryTime extends AbstractHook {
 
     public function execute(array $params)
     {
-        if(empty($params['carrier']) && empty($params['cart'])) {
-            return;
+        $idCarrier = $this->context->cart->id_carrier ?? null;
+        $cart = $this->context->cart ?? null;
+
+        if (!empty($params['carrier']['id'])) {
+            $idCarrier = (int) $params['carrier']['id'];
         }
 
-        $idCarrierReference = (int) $params['carrier']['id_reference'] ?? null;
-        $cart = $params['cart'] ?? null;
+        if (!empty($params['cart'])) {
+            $cart = $params['cart'];
+        }
 
-        $this->assignTemplateVariables($idCarrierReference, $cart);
+        $this->assignTemplateVariables($idCarrier, $cart);
 
         return $this->module->fetch($this->getTemplateFullPath());
     }
 
-    private function assignTemplateVariables($idCarrierReference = null, $cart = null): void {
-        $deliveryTimeData = $this->deliveryTimePresenter->present($idCarrierReference, $cart);
+    private function assignTemplateVariables($idCarrier = null, $cart = null): void {
+        $deliveryTimeData = $this->deliveryTimePresenter->present($idCarrier, $cart);
 
         $this->context->smarty->assign([
             'deliveryTimeProducts' => $deliveryTimeData['carrierDeliveryTime'],
