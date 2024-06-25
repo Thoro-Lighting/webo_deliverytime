@@ -29,7 +29,7 @@ class DisplayDeliveryTime extends AbstractHook {
         $idCarrier = $this->context->cart->id_carrier ?? null;
         $cart = $this->context->cart ?? null;
 
-        if (!empty($params['carrier']['id'])) {
+        if (!empty($params['carrier'] && !empty($params['carrier']['id']))) {
             $idCarrier = (int) $params['carrier']['id'];
         }
 
