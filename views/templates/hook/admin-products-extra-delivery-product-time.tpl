@@ -1,12 +1,12 @@
 <div class="row mt-4">
     <div class="col-md-12">
-        <h2>{l s='Czas dostawy' d='Modules.WeboDeliverytime.Admin'}</h2>
+        <h2>{l s='Czas przygotowania do wysyłki' d='Modules.WeboDeliverytime.Admin'}</h2>
     </div>
 
     <div class="col-md-4">
         <div class="form-group">
             <label class="form-control-label" for="delivery_time_on_stock">
-                {l s='Czas dostawy w dniach kiedy produkt jest na stanie' d='Modules.WeboDeliverytime.Admin'}
+                {l s='Czas przygotowania w dniach kiedy produkt jest na stanie' d='Modules.WeboDeliverytime.Admin'}
             </label>
             <input type="text"
                    id="delivery_time_on_stock"
@@ -21,7 +21,7 @@
     <div class="col-md-4">
         <div class="form-group">
             <label class="form-control-label" for="delivery_time_out_of_stock">
-                {l s='Czas dostawy w dniach kiedy produkt jest wyprzedany' d='Modules.WeboDeliverytime.Admin'}
+                {l s='Czas przygotowania kiedy produkt jest wyprzedany' d='Modules.WeboDeliverytime.Admin'}
             </label>
             <input type="text"
                    id="delivery_time_out_of_stock"
